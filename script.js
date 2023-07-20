@@ -2,6 +2,7 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 
+//These are the variables I used to reference from the index.html
 var currentdayEl = $("#currentDay")
 var saveButton = $('.saveBtn')
 var hour9 = $('#hour-nine')
@@ -24,11 +25,14 @@ var hour15Block = $('#hour-15')
 var hour16Block = $('#hour-16')
 var hour17Block = $('#hour-17')
 
+//These variables are used to pull the date and get the current hour
 var d = new Date()
 var currentTime = d.getHours()
 console.log(currentTime)
 
-
+//This var is used to add the class if the time is equal to the current time. 
+//If the current time is equal to the specified number than it will add the present class to the current time while adding the future class to the upcoming times
+//If time is already past then instead it will add the past class
 var setTime = function(){
   if (currentTime === 9) {
     hour9Block.addClass('present')
@@ -133,13 +137,15 @@ var setTime = function(){
   }
 }
 
+//This makes sure that the function is loaded when browser is fully rendered
 $(document).ready(function () {
 
+//Uses the dayjs script to display the current time on the page
   function displayTime() {
     var rightNow = dayjs().format('MMM DD, YYYY [at] hh:mm:ss a');
     currentdayEl.text(rightNow);
   }
-
+//This is an event listener which detects when the button is clicked it will save any value inputed in the html box to the local storage.
   $(function () {
     saveButton.on('click', function () {
       console.log('button function works');
@@ -154,6 +160,7 @@ $(document).ready(function () {
       localStorage.setItem('hour-17', hour17.val());
     })
 
+    //These simply display what is saved in the local storage and is specfied by the document.getElementById.
     document.getElementById('hour-nine').innerText = localStorage.getItem('hour-9')
     document.getElementById('hour-ten').innerText = localStorage.getItem('hour-10')
     document.getElementById('hour-eleven').innerText = localStorage.getItem('hour-11')
@@ -164,10 +171,13 @@ $(document).ready(function () {
     document.getElementById('hour-sixteen').innerText = localStorage.getItem('hour-16')
     document.getElementById('hour-seventeen').innerText = localStorage.getItem('hour-17')
 
+    //These simply call upon the functions that were created earlier in the page and simply display them on the live page.
     displayTime()
+    //This allows the time to actually tick and go up in increments of a second live on the page.
     setInterval(displayTime, 1000);
   });
 
 });
 
+//This allows the classes to be added in the live page.
 setTime()
